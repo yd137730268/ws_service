@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.jws.WebService;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.dy.ws.pojo.User;
 import org.dy.ws.pojo.World;
 import org.dy.ws.service.HelloWorld;
+import org.dy.ws.util.WorldMapXmlAdapter;
 
 @WebService(targetNamespace = "org.dy.ws.service.impl.HelloWorldWS", serviceName = "HelloWorldWS")
 public class HelloWorldWS implements HelloWorld {
@@ -39,6 +41,18 @@ public class HelloWorldWS implements HelloWorld {
 
 	@Override
 	public Map<String, World> getAllWorlds() {
+		String log = "getAllWorlds -> no parameters";
+		System.out.println(log);
+		Map<String, World> map = new HashMap<String, World>();
+		for (World world : WORLDS) {
+			map.put(world.getFeel(), world);
+		}
+		return map;
+	}
+
+	@Override
+	@XmlJavaTypeAdapter(WorldMapXmlAdapter.class)
+	public Map<String, World> getAllWorlds2() {
 		String log = "getAllWorlds -> no parameters";
 		System.out.println(log);
 		Map<String, World> map = new HashMap<String, World>();
